@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  bot:
+    build:
+      dockerfile: "Dockerfile"
+    container_name: "tg_bot"
+    restart: on-failure
+    networks:
+      main:
+        - ipv4_address: 192.168.0.3
+  mysql:
+    image: mysql/mysql-server:latest
+    volumes:
+#      - './mysql/my.conf:/etc/my.conf'
+      - './mysql/datadir:/var/lib/mysql'
+    environment:
+      - 'MYSQL_ROOT_PASSWORD:194@d&bF@&f$bd#s'
+    networks:
+      main:
+        - ipv4_address: 192.168.0.2
+  test_machine:
+    image: ubuntu:latest
+    networks:
+      main:
+        - ipv4_address: 192.168.0.6
+
+networks:
+  main:
+    ipam:
+      config:
+        subnet: 192.168.0.1/29
+
